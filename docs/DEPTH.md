@@ -32,6 +32,17 @@
 | TRAP-18 | `app/intake/reader.py` | `tests/test_traps.py::test_empty_and_header_only_differ` |
 | TRAP-26 | `app/review/store.py` | `tests/test_review.py::test_stale_revision_is_rejected` |
 
+## 回款抵账模块
+
+| 模块 | 动作 | 入口 | 核心文件 | 测试 |
+|---|---|---|---|---|
+| S1 回款入账 | 指定/未指定抵扣、待认领、重复入账幂等 | `POST /api/settlement/receipts` | `app/settlement/engine.py` | `tests/test_settlement.py` |
+| S2 回款冲回 | 恢复欠款且不改动其他回款 | `POST /api/settlement/receipts/{id}/reverse` | `app/settlement/store.py` | `tests/test_settlement.py` |
+| S3 待认领 | 争议解除后认领到账单 | `POST /api/settlement/receipts/{id}/claim` | `app/settlement/store.py` | `tests/test_settlement.py` |
+| S4 抵账对账 | 已抵 + 待认领 = 未冲回实收 | `GET /api/settlement` | `app/settlement/service.py` | `tests/test_settlement.py` |
+
+回款层只在同客户、已签、无争议的账单上销账；争议指定的款保留待认领；冲回按回款粒度撤销，不回滚其他回款；对账恒等式由服务端校验。
+
 ## 深度边界
 
 采信层区分编码、重复表头、列数、空值、全角字符、前导零与冲突重复；整理层负责单位和字段边界；计算层执行核心规则；判定层保留原因码；对账层要求来源行等于采信、隔离、重复和忽略之和；复核层使用版本号阻止陈旧签发。

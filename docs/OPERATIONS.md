@@ -24,4 +24,4 @@ docker compose down -v
 docker compose up --build
 ```
 
-历史批次保存在 SQLite 卷中。重置会清除本地批次与签发记录。
+历史批次保存在 SQLite 卷中。重置会清除本地批次与签发记录。回款与账单默认存于 `instance/settlement.sqlite3`，可用 `WORKBENCH_SETTLEMENT_DB` 指定；首次启动会载入演示回款场景，设置 `WORKBENCH_AUTOSEED=0` 可关闭。

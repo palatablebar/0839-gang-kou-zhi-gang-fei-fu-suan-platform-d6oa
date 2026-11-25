@@ -1,0 +1,66 @@
+<section class="settlement" id="settlement" aria-labelledby="settlement-title">
+  <article class="panel panel-settlement">
+    <div class="panel-head">
+      <h2 id="settlement-title">回款抵扣</h2>
+      <span class="hint" id="settlement-asof">--</span>
+    </div>
+    <div class="settlement-kpis">
+      <div class="ledger-row"><span>未冲回实收</span><strong id="s-received">--</strong></div>
+      <div class="ledger-row"><span>已抵</span><strong id="s-allocated">--</strong></div>
+      <div class="ledger-row"><span>待认领</span><strong id="s-pending">--</strong></div>
+      <div class="ledger-row"><span>逾期欠款</span><strong id="s-overdue">--</strong></div>
+    </div>
+    <div class="ledger" id="settlement-checks"></div>
+    <p class="hint settlement-identity" id="settlement-identity"></p>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head"><h2>账单</h2><span class="hint" id="bill-count">--</span></div>
+    <div class="table-wrap"><table><thead id="bill-head"></thead><tbody id="bill-body"></tbody></table></div>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head"><h2>回款</h2><span class="hint" id="receipt-count">--</span></div>
+    <div class="table-wrap"><table><thead id="receipt-head"></thead><tbody id="receipt-body"></tbody></table></div>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head"><h2>登记回款</h2><span class="hint">银行到账</span></div>
+    <form class="settle-form" id="receipt-form">
+      <label>客户 <input name="customer_id" id="receipt-customer" required autocomplete="off" placeholder="Harbor" list="customer-list"></label>
+      <label>金额（元） <input name="amount" required inputmode="decimal" placeholder="500.00"></label>
+      <label>到账时间 <input name="received_at" type="datetime-local"></label>
+      <label>银行流水号 <input name="bank_ref" autocomplete="off"></label>
+      <label>指定账单 <select name="designated_bill_id" id="designated-bill"><option value="">不指定</option></select></label>
+      <label>指定金额（元） <input name="designated_yuan" inputmode="decimal" placeholder="留空即全额"></label>
+      <button type="submit" id="post-receipt">入账</button>
+    </form>
+    <datalist id="customer-list"></datalist>
+    <p class="hint">指定到争议或未签账单的款保留待认领，不会挪去抵其他欠款；未指定用途的款按最早到期抵无争议已签账单。同一笔回款重复入账不会重复销账。</p>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head"><h2>待认领处理</h2><span class="hint" id="claim-hint">选择一笔有待认领金额的回款</span></div>
+    <form class="settle-form" id="claim-form">
+      <label>回款 <input name="receipt_id" id="claim-receipt" readonly placeholder="在回款表中点“认领”"></label>
+      <label>账单 <select name="bill_id" id="claim-bill"></select></label>
+      <label>金额（元） <input name="claim_yuan" inputmode="decimal" placeholder="留空即全部可认领额"></label>
+      <button type="submit" id="claim-submit" disabled>认领</button>
+      <button type="button" id="claim-clear" disabled>取消</button>
+    </form>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head"><h2>登记账单</h2><span class="hint">已签滞港费</span></div>
+    <form class="settle-form" id="bill-form">
+      <label>账单号 <input name="bill_id" required autocomplete="off" placeholder="B-1004"></label>
+      <label>客户 <input name="customer_id" required autocomplete="off" placeholder="Harbor"></label>
+      <label>金额（元） <input name="amount" required inputmode="decimal" placeholder="520.00"></label>
+      <label>到期日 <input name="due_date" type="date" required></label>
+      <label>摘要 <input name="label" autocomplete="off"></label>
+      <label class="check"><input name="signed" type="checkbox" checked> 已签</label>
+      <label class="check"><input name="disputed" type="checkbox"> 有争议</label>
+      <button type="submit">保存账单</button>
+    </form>
+  </article>
+</section>
